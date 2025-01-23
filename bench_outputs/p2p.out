@@ -1,0 +1,38 @@
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/privatization' to '1'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/np' to '4'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/hostfile' to 'hostfiles/cluster_hostfile.txt'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/filename' to 'smpi_simgrid.trace'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/smpi' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/tmpdir' to '/home/aki1207/tmp_simgrid'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/tmpdir' to '/tmp'
+[0.000000] [smpi_config/INFO] You did not set the power of the host running the simulation.  The timings will certainly not be accurate.  Use the option "--cfg=smpi/host-speed:<flops>" to set its value.  Check https://simgrid.org/doc/latest/Configuring_SimGrid.html#automatic-benchmarking-of-smpi-code for more information.
+[0.000096] ./src/kernel/EngineImpl.cpp:718: [ker_engine/CRITICAL] Oops! Deadlock detected, some activities are still around but will never complete. This usually happens when the user code is not perfectly clean.
+[0.000096] [ker_engine/INFO] 4 actors are still running, waiting for something.
+[0.000096] [ker_engine/INFO] Legend of the following listing: "Actor <pid> (<name>@<host>): <status>"
+[0.000096] [ker_engine/INFO] Actor 1 (0@host-0.hawaii.edu): waiting for communication activity 0x564ce65ba0c0 () in state WAITING to finish
+[0.000096] [ker_engine/INFO] Actor 2 (1@host-1.hawaii.edu): waiting for communication activity 0x564ce65ba500 () in state WAITING to finish
+[0.000096] [ker_engine/INFO] Actor 3 (2@host-2.hawaii.edu): waiting for communication activity 0x564ce65ba940 () in state WAITING to finish
+[0.000096] [ker_engine/INFO] Actor 4 (3@host-3.hawaii.edu): waiting for communication activity 0x564ce65ba350 () in state WAITING to finish
+[host-0.hawaii.edu:0:(1) 0.000096] ./src/instr/instr_paje_containers.cpp:103: [root/CRITICAL] container with name rank-1 not found
+Backtrace (displayed in actor 0):
+  ->  0# xbt_backtrace_display_current at ./src/xbt/backtrace.cpp:30
+  ->  1# simgrid::instr::Container::by_name(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) at ./src/instr/instr_paje_containers.cpp:100
+  ->  2# smpi_container(long) at ./src/smpi/internals/instr_smpi.cpp:99
+  ->  3# std::_Function_handler<void (bool), TRACE_smpi_init(long, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)::{lambda(bool)#1}>::_M_invoke(std::_Any_data const&, bool&&) at /usr/include/c++/9/bits/std_function.h:302
+  ->  4# simgrid::kernel::actor::ActorImpl::cleanup_from_self() at /usr/include/c++/9/bits/stl_vector.h:909
+  ->  5# simgrid::kernel::context::Context::stop() [clone .localalias] [clone .lto_priv.0] at ./src/kernel/context/Context.cpp:143
+  ->  6# simgrid::kernel::actor::ActorImpl::yield() at ./src/kernel/actor/ActorImpl.cpp:274
+  ->  7# simcall_run_blocking(std::function<void ()> const&, simgrid::kernel::actor::SimcallObserver*) at ./src/simix/libsmx.cpp:190
+  ->  8# simgrid::smpi::Request::wait(simgrid::smpi::Request**, MPI_Status*) at ./src/smpi/mpi/smpi_request.cpp:1090
+  ->  9# simgrid::smpi::Request::recv(void*, int, simgrid::smpi::Datatype*, int, int, simgrid::smpi::Comm*, MPI_Status*) at ./src/smpi/mpi/smpi_request.cpp:376
+  ->  10# PMPI_Recv at ./src/smpi/bindings/smpi_pmpi_request.cpp:252
+  ->  11# MPI_Recv at ./src/smpi/bindings/smpi_mpi.cpp:242
+  ->  12# 0x00007FBE9B7EA197 in /tmp/main_1108133_0.so
+  ->  13# 0x00007FBE9B7E9897 in /tmp/main_1108133_0.so
+  ->  14# 0x00007FBE9B7E8D6A in /tmp/main_1108133_0.so
+
+build/bin/main --cfg=smpi/privatization:1 --cfg=tracing:yes --cfg=tracing/filename:smpi_simgrid.trace --cfg=tracing/smpi:yes --cfg=surf/precision:1e-9 --cfg=network/model:SMPI --cfg=smpi/tmpdir:/home/aki1207/tmp_simgrid --cfg=smpi/tmpdir:/tmp platforms/cluster_crossbar.xml
+Execution failed with code 134.

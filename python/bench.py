@@ -5,9 +5,15 @@ import os
 # Fonction pour exécuter une commande MPI
 def run_mpi_command(m, n, k, b, p, q, algo, la, niter, output_file="bench.csv"):
     command = [
-        "mpirun",
+        "smpirun",
         "-np", str(p * q),
-        "./build/bin/main",
+        "-trace",
+        "--cfg=smpi/tmpdir:/home/aki1207/tmp_simgrid",
+        "-platform",
+        "../platforms/cluster_crossbar.xml",
+        "-hostfile",
+        "../hostfiles/cluster_hostfile.txt",
+        "../build/bin/main",
         "-m", str(m),
         "-n", str(n),
         "-k", str(k),
@@ -15,7 +21,7 @@ def run_mpi_command(m, n, k, b, p, q, algo, la, niter, output_file="bench.csv"):
         "-p", str(p),
         "-q", str(q),
         "--algorithm", algo,
-        "--niter", str(niter)
+        "--niter", str(niter),
     ]
     if algo == "p2p-i-la":
         command.extend(["--lookahead", str(la)])
@@ -23,10 +29,12 @@ def run_mpi_command(m, n, k, b, p, q, algo, la, niter, output_file="bench.csv"):
 
     # Exécuter la commande et récupérer la sortie
     try:
+        print(' '.join(command))
         result = subprocess.run(command, capture_output=True, text=True, check=True)
         gflops = parse_output(result.stdout)
         save_to_csv(m, n, k, b, p, q, algo, la, gflops, output_file)
     except subprocess.CalledProcessError as e:
+        print(e.stdout)
         print(f"Erreur lors de l'exécution de {algo}: {e.stderr}")
 
 # Fonction pour extraire les GFLOPS de la sortie

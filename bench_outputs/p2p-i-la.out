@@ -1,0 +1,26 @@
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/privatization' to '1'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/np' to '4'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/hostfile' to 'hostfiles/cluster_hostfile.txt'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/filename' to 'smpi_simgrid.trace'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'tracing/smpi' to 'yes'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'surf/precision' to '1e-9'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'network/model' to 'SMPI'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/tmpdir' to '/home/aki1207/tmp_simgrid'
+[0.000000] [xbt_cfg/INFO] Configuration change: Set 'smpi/tmpdir' to '/tmp'
+[0.000000] [smpi_config/INFO] You did not set the power of the host running the simulation.  The timings will certainly not be accurate.  Use the option "--cfg=smpi/host-speed:<flops>" to set its value.  Check https://simgrid.org/doc/latest/Configuring_SimGrid.html#automatic-benchmarking-of-smpi-code for more information.
+[nidoran.enseeiht.fr] (p2p-i-la) measured_wtime = 0.010390s (la=4) | 206.687542 Gflop/s
+[nidoran.enseeiht.fr] (g) measured_wtime = 0.038766s | 55.396059 Gflop/s
+algorithm is not GEMM by  1.39957e+08
+[nidoran.enseeiht.fr] (p2p-i-la) measured_wtime = 0.010209s (la=4) | 210.352013 Gflop/s
+[nidoran.enseeiht.fr] (g) measured_wtime = 0.038611s | 55.618444 Gflop/s
+algorithm is not GEMM by  1.39957e+08
+[nidoran.enseeiht.fr] (p2p-i-la) measured_wtime = 0.010167s (la=4) | 211.220977 Gflop/s
+[nidoran.enseeiht.fr] (g) measured_wtime = 0.038429s | 55.881852 Gflop/s
+algorithm is not GEMM by  1.39957e+08
+[nidoran.enseeiht.fr] (p2p-i-la) measured_wtime = 0.010136s (la=4) | 211.866976 Gflop/s
+[nidoran.enseeiht.fr] (g) measured_wtime = 0.038407s | 55.913858 Gflop/s
+algorithm is not GEMM by  1.39957e+08
+[nidoran.enseeiht.fr] (p2p-i-la) measured_wtime = 0.010128s (la=4) | 212.034329 Gflop/s
+[nidoran.enseeiht.fr] (g) measured_wtime = 0.038410s | 55.909493 Gflop/s
+algorithm is not GEMM by  1.39957e+08
