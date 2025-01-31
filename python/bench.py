@@ -10,7 +10,7 @@ def run_mpi_command(m, n, k, b, p, q, algo, la, niter, output_file="bench.csv"):
         "smpirun",
         "-np", str(p * q),
         "-trace",
-        "--cfg=smpi/tmpdir:/home/aki1207/tmp_simgrid",
+        f"--cfg=smpi/tmpdir:{os.path.expanduser('~/')}/tmp_simgrid",
         "-platform",
         "../platforms/cluster_crossbar.xml",
         "-hostfile",
@@ -37,6 +37,8 @@ def run_mpi_command(m, n, k, b, p, q, algo, la, niter, output_file="bench.csv"):
         duration = time() - start
         gflops = parse_output(result.stdout)
         save_to_csv(m, p, q, algo, la, gflops, output_file, duration)
+        if Path(f"./smpi_simgrid.trace").exists():
+            Path(f"./smpi_simgrid.trace").rename(f"../bench_traces/{algo}_{m}_{p}_{q}_{la}.trace")
     except subprocess.CalledProcessError as e:
         print(e.stdout)
         print(f"Erreur lors de l'exécution de {algo}: {e.stderr}")
@@ -48,6 +50,10 @@ def parse_output(output):
             return float(line.split("|")[-1].strip().split()[0])
     return None
 
+# Indice plus élevé = matrice plus grande et plus de processus
+def configuration_index(m, p, q):
+    return m * p * q
+
 # Fonction pour sauvegarder les résultats dans un fichier CSV
 def save_to_csv(m, p, q, algo, la, gflops, output_file, duration):
     df = pd.DataFrame([{
@@ -55,7 +61,8 @@ def save_to_csv(m, p, q, algo, la, gflops, output_file, duration):
         "p": p, "q": q, "algo": algo,
         "lookahead": la, "gflops": gflops,
         "process_count": p * q,
-        "duration": duration
+        "duration": duration,
+        "configuration": configuration_index(m, p, q)
     }])
 
     if not os.path.exists(output_file):
@@ -76,6 +83,6 @@ if __name__ == "__main__":
             for i in [4, 8, 12]:
                 n = m = k = i * b
                 run_mpi_command(m, n, k, b, p, q, "bcast", la=0, niter=niter, output_file=output_file)
-                run_mpi_command(m, n, k, b, p, q, "p2p", la=5, niter=niter, output_file=output_file)
+                run_mpi_command(m, n, k, b, p, q, "p2p", la=0, niter=niter, output_file=output_file)
                 # for la in range(1, k // b + 1):
                 run_mpi_command(m, n, k, b, p, q, "p2p-i-la", la=2, niter=niter, output_file=output_file)
