@@ -23,5 +23,6 @@ if __name__ == "__main__":
     df = read_timings_from_csv()
     for algo in {"p2p", "bcast", "p2p-i-la"}:
         plot_timings(df[df["algo"] == algo], "process_count", "duration", "m", f"Performance de {algo}", "Nombre de processus", "Temps [s]", f"{algo}_scalabilité_forte.png")
-        plot_timings(df[df["algo"] == algo], "configuration", "gflops", None, f"Performance de {algo}", "Configurations (m*p*q)", "Temps [s]", f"{algo}_scalabilité_faible.png")
+        df["configuration"] = df["m"] * df["p"] * df["q"]
+        plot_timings((df[df["algo"] == algo) & (df["configuration"] != 0)], "configuration", "duration", None, f"Performance de {algo}", "Configurations (m*p*q)", "Temps [s]", f"{algo}_scalabilité_faible.png")
     # plot_timings(df, "process_count", "duration", "algo", "lookahead", "Performance des algorithmes", "Taille des matrices", "GFLOPS", "performance.png")
